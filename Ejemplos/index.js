@@ -1,31 +1,32 @@
-const express = require('express')
+const express = require("express");
 
-const app = express()
+const app = express();
 
-app.get('/productos', (req, res) => {
+app.get("/", (req, res) => {
+  res.send("Hola Mundo");
+});
 
-    //validar datos
-    //consultar una bae de datos
-    //procesar datos
+app.get("/miarchivo", (req, res) => {
+  res.sendFile("./JavaScript.png", {
+    root: __dirname,
+  });
+});
 
-    res.send('Lista de Productos')
-})
+app.get("/user", (req, res) => {
+  res.json({
+    nombre: "Christian",
+    apellido: "Ramirez",
+    notas: [5, 10, 12],
+    direccion: {
+      ciudad: "Lima",
+      distrito: "SJM",
+    },
+  });
+});
 
-app.post('/productos', (req, res) => {
-    res.send('Creando productos')
-})
+app.get("/isAlive", (req, res) => {
+  res.sendStatus(200);
+});
 
-app.put('/productos', (req, res) => {
-    res.send('Actualizando productos')
-})
-
-app.delete('/productos', (req, res) => {
-    res.send('Eliminando productos')
-})
-
-app.patch('/productos', (req, res) => {
-    res.send('Actualizando una parte del producto')
-})
-
-app.listen(3000)
-console.log(`Server on Port ${3000}`)
+app.listen(3000);
+console.log(`Server on Port ${3000}`);
