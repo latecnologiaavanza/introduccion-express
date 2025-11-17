@@ -5,6 +5,8 @@ const app = express();
 
 app.use(morgan('dev'))
 
+app.set('appName','Express v1')
+
 app.use((req, res, next) => {
   console.log(`Route: ${req.url} - Metodo: ${req.method}`);
   next();
@@ -35,4 +37,4 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.listen(3000);
-console.log(`Server on Port ${3000}`);
+console.log(`Server ${app.get('appName')} on Port ${3000}`);
