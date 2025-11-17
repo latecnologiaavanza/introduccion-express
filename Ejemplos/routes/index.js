@@ -4,7 +4,9 @@ const express = require("express");
 const router = express.Router();
 
 router.all("/about", (req, res) => {
-  res.send("About page");
+  const title = "Pagina creada desde Express usando EJS";
+
+  res.render("index", { title });
 });
 
 router.all("/dashboard", (req, res) => {

@@ -1,7 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
-
+require("ejs");
+const path = require("path");
 const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 const HomeRoutes = require("./routes/index");
 const UserRoutes = require("./routes/users");
