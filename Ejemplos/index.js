@@ -5,6 +5,8 @@ const app = express();
 
 app.use(morgan('dev'))
 
+app.use(express.static('./public'))
+
 app.set('appName','Express v1')
 
 app.use((req, res, next) => {
@@ -24,6 +26,7 @@ app.all("/about", (req, res) => {
   res.send("About Page");
 });
 
+/*
 app.use((req, res, next) => {
   if (req.query.login === "christian") {
     next();
@@ -31,7 +34,7 @@ app.use((req, res, next) => {
     res.send("No Autorizado");
   }
 });
-
+*/
 app.get("/dashboard", (req, res) => {
   res.send("Dashboard Page");
 });
