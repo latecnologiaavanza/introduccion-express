@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 
 const app = express();
-const productos = [
+let productos = [
   {
     id: 1,
     nombre: "Laptop",
@@ -29,16 +29,46 @@ app.post("/productos", (req, res) => {
   res.json(newProducto);
 });
 
-app.put("/productos", (req, res) => {
-  res.send("Actualizando Productos");
+app.put("/productos/:id", (req, res) => {
+  const newData = req.body;
+  const productoFind = productos.find((p) => p.id === parseInt(req.params.id));
+
+  if (!productoFind) {
+    return res.status(404).json({ message: "Produco no encontrado" });
+  }
+
+  //map() recorre el array productos y crea un nuevo array basado en lo que retornes para cada elemento
+  //Crea un nuevo objeto con los datos del producto p, pero reemplazando las propiedades con las que vienen en newData
+  //Si NO coincide: Devuelve el producto igual, sin modificarlo
+  // "..." sirve para copiar todas las propiedades de un objeto dentro de otro
+  //Se copia todo lo de p, pero las propiedades que están en newData sobrescriben a las de p
+  productos = productos.map((p) =>
+    p.id === parseInt(req.params.id) ? { ...p, ...newData } : p
+  );
+
+  res.json({
+    message: "Producto actualizado exitosamente"
+  })
 });
 
-app.delete("/productos", (req, res) => {
-  res.send("Eliminando Productos");
+app.delete("/productos/:id", (req, res) => {
+  const productoFind = productos.find(
+    (producto) => producto.id === parseInt(req.params.id)
+  );
+
+  if (!productoFind) {
+    return res.status(404).json({
+      message: "Producto no encontrado",
+    });
+  }
+
+  productos = productos.filter((p) => p.id !== parseInt(req.params.id));
+
+  res.sendStatus(204);
 });
 
 app.get("/productos/:id", (req, res) => {
-  const productoFind = productos.find((p)=> p.id === parseInt(req.params.id));
+  const productoFind = productos.find((p) => p.id === parseInt(req.params.id));
 
   if (!productoFind) {
     return res.status(404).json({ message: "Produco no encontrado" });
